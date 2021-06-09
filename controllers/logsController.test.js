@@ -11,10 +11,37 @@ describe("logs", () => {
   });
 
   describe("/logs", () => {
-    it("sends the logs array", async () => {
-      const response = await request(logs).get("/logs");
+    describe("GET", () => {
+      it("sends the logs array", async () => {
+        const response = await request(logs).get("/logs");
 
-      expect(JSON.parse(response.text)).toEqual(logsArray);
+        expect(JSON.parse(response.text)).toEqual(logsArray);
+      });
+    });
+
+    describe("POST", () => {
+      it("adds new log to end of logs array", async () => {
+        const newLastArrayPosition = logsArray.length;
+        const newLog = {
+          captainName: "Picard",
+          title: "Stars",
+          post: "Today I contemplated that there sure are a lot of stars in the sky",
+          mistakesWereMadeToday: true,
+          daysSinceLastCrisis: "10",
+        };
+
+        await new Promise((resolve) => {
+          request(logs)
+            .post(`/logs`)
+            .send(newLog)
+            .set("Accept", "application/json")
+            .expect("headers.location", "/logs")
+            .expect("statusCode", 303)
+            .end(resolve);
+        });
+
+        expect(logsArray[newLastArrayPosition]).toEqual(newLog);
+      });
     });
   });
 
@@ -48,31 +75,6 @@ describe("logs", () => {
         });
 
         expect(logsArray[0]).toEqual(updatedLog);
-      });
-    });
-
-    describe("POST", () => {
-      it("creates at the index in the logs array", async () => {
-        const newLastArrayPosition = logsArray.length;
-        const newLog = {
-          captainName: "Picard",
-          title: "Stars",
-          post: "Today I contemplated that there sure are a lot of stars in the sky",
-          mistakesWereMadeToday: true,
-          daysSinceLastCrisis: "10",
-        };
-
-        await new Promise((resolve) => {
-          request(logs)
-            .post(`/logs`)
-            .send(newLog)
-            .set("Accept", "application/json")
-            .expect("headers.location", "/logs")
-            .expect("statusCode", 303)
-            .end(resolve);
-        });
-
-        expect(logsArray[newLastArrayPosition]).toEqual(newLog);
       });
     });
 

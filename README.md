@@ -36,9 +36,14 @@ If you feel like you are falling behind, reach out to an instructor.
 | :-: | :----: | :---: | :-------: | :------: | :-------------------------------: |
 |  1  | Index  | /logs |    GET    | **R**ead | Get a list (or index) of all logs |
 
-- create express app
+- fork and clone this repository
+- `cd` into this repository
+- `npm install` to install the dependencies for `Jest`
+- `npm test` to run tests
+- Make sure you are on the same level as the package.json and
+- create a basic express app, use the tests to help guide you
 
-Build an array of 3 objects that have a
+then, build an array of 3 objects that have a
 
 - captainName: string
 - title: string
@@ -46,7 +51,7 @@ Build an array of 3 objects that have a
 - mistakesWereMadeToday: boolean
 - daysSinceLastCrisis: number
 
-Let's get you started with the first one. To pass tests, be sure to keep this object as your first one.
+Let's get you started with the first few. To pass tests, be sure to keep this object as your first one.
 
 ```js
 module.exports = [
